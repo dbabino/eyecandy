@@ -1,8 +1,13 @@
-FROM node:7.0.0
-RUN mkdir -p /www/src
-RUN mkdir /www/view
-RUN mkdir /www/static
-COPY web/package.json /www
+# Use a newer Node.js version based on Debian Buster
+FROM node:14-buster
+
+# Set the working directory
 WORKDIR /www
-# RUN npm install --quiet --production
-RUN npm install --quiet
+
+# Create necessary directories
+RUN mkdir -p src view static
+
+# Copy package.json and install dependencies
+COPY web/package.json ./
+RUN npm install --quiet && \
+    npm cache clean --force
